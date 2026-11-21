@@ -1,0 +1,208 @@
+/* =====================================================================
+   P25: Giao diện đồ họa "Bối cảnh" — theo Open Design:
+   · redesign-skill: nền trống → ảnh chất lượng cao (phủ mờ / che bớt), có chiều sâu, chữ có cá tính (Poppins tiêu đề, Montserrat nội dung)
+   · design system "claymorphism": khối bo tròn mềm 14/22/34px, bóng đổ nổi kép (sáng–tối), tông đất nung ấm, 1 màu nhấn.
+   Chỉ bật khi body.has-scene (đã chọn tranh). Không đổi chức năng.
+   ===================================================================== */
+html.clean body.has-scene {
+  --od-accent: #b46a46;
+  --od-accent-hover: color-mix(in oklab, #b46a46, black 10%);
+  --od-ink: #2b211c;
+  --od-ink-2: #5a4b43;
+  --od-glass: rgb(255 248 241 / 0.78);
+  --od-glass-strong: rgb(255 248 241 / 0.92);
+  --od-line: rgb(218 200 185 / 0.75);
+  --od-r-sm: 14px; --od-r-md: 22px; --od-r-lg: 34px;
+  --od-elev: 8px 10px 24px rgb(128 92 70 / 0.18), -6px -6px 18px rgb(255 255 255 / 0.45);
+  --od-elev-hover: 12px 16px 32px rgb(128 92 70 / 0.24), -6px -6px 18px rgb(255 255 255 / 0.5);
+  --tint: var(--od-accent); --accent: var(--od-accent);
+  --text: var(--od-ink); --muted: #7d6c62; --clay-ink: var(--od-ink);
+  font-family: Montserrat, var(--font, system-ui), sans-serif;
+  background: #2b211c !important; /* màu nền khi ảnh đang tải */
+}
+/* Tranh phủ toàn màn hình, cố định; lớp phủ ấm để chữ luôn đọc được */
+html.clean body.has-scene::before {
+  content: ''; position: fixed; inset: 0; z-index: -2; pointer-events: none;
+  background: var(--scene) center / cover no-repeat;
+  transform: scale(1.04); filter: saturate(1.08);
+}
+html.clean body.has-scene main::before {
+  content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    linear-gradient(90deg, rgb(43 33 28 / 0.18) 0%, rgb(43 33 28 / 0) 45%),
+    linear-gradient(180deg, rgb(247 238 230 / 0) 0%, rgb(247 238 230 / 0.55) 55%, rgb(247 238 230 / 0.82) 100%);
+}
+@media (prefers-color-scheme: dark) {
+  html.clean body.has-scene { --od-glass: rgb(36 28 24 / 0.78); --od-glass-strong: rgb(36 28 24 / 0.92); --od-line: rgb(90 70 58 / 0.6); --od-ink: #f6ece2; --text: #f6ece2; --muted: #c8b6a8; --clay-ink: #f6ece2; }
+  html.clean body.has-scene main::before { background: linear-gradient(180deg, rgb(20 15 12 / 0.25), rgb(20 15 12 / 0.78)); }
+}
+
+/* Chữ có cá tính */
+html.clean body.has-scene h2, html.clean body.has-scene .hero h2, html.clean body.has-scene .stat-value {
+  font-family: Poppins, var(--display, system-ui), sans-serif !important; letter-spacing: -0.025em; text-wrap: balance;
+}
+html.clean body.has-scene h3 { font-family: Poppins, system-ui, sans-serif; font-weight: 600; letter-spacing: -0.01em; }
+html.clean body.has-scene .stat-value, html.clean body.has-scene .count, html.clean body.has-scene .clock { font-variant-numeric: tabular-nums; }
+
+/* Đầu trang & thanh bên: kính mờ trên tranh */
+html.clean body.has-scene .app-header { background: rgb(255 248 241 / 0.55) !important; border-bottom: 1px solid var(--od-line) !important; }
+html.clean body.has-scene .capture input { background: var(--od-glass-strong) !important; border: 1px solid var(--od-line) !important; box-shadow: var(--od-elev) !important; }
+html.clean body.has-scene .pill { background: var(--od-glass-strong) !important; }
+@media (min-width: 900px) {
+  html.clean body.has-scene .tabs {
+    background: rgb(43 33 28 / 0.55) !important; backdrop-filter: blur(16px) saturate(1.2); -webkit-backdrop-filter: blur(16px) saturate(1.2);
+    border: 1px solid rgb(255 255 255 / 0.18) !important; box-shadow: 0 18px 40px rgb(30 20 15 / 0.35) !important;
+  }
+  html.clean body.has-scene .tabs a { color: rgb(255 248 241 / 0.92) !important; }
+  html.clean body.has-scene .tabs a.active { background: var(--od-glass-strong) !important; color: var(--od-ink) !important; }
+}
+
+/* Tiêu đề màn = "cửa sổ" nhìn ra bối cảnh */
+html.clean body.has-scene .view-head {
+  min-height: 150px; display: flex; flex-direction: column; justify-content: flex-end; gap: 6px;
+  padding: 18px 22px !important; border: 0 !important; border-radius: var(--od-r-lg) !important;
+  background: linear-gradient(180deg, rgb(20 14 10 / 0) 25%, rgb(20 14 10 / 0.62) 100%), var(--scene) center 40% / cover !important;
+  box-shadow: var(--od-elev) !important; color: #fff8f1;
+}
+html.clean body.has-scene .view-head::after { display: none !important; }
+html.clean body.has-scene .view-head h2 { color: #fff8f1 !important; font-size: clamp(26px, 3.4vw, 40px); line-height: 1.05; text-shadow: 0 2px 14px rgb(0 0 0 / 0.35); }
+html.clean body.has-scene .view-head .muted { color: rgb(255 248 241 / 0.88) !important; max-width: 65ch; text-shadow: 0 1px 8px rgb(0 0 0 / 0.35); }
+html.clean body.has-scene .view-head .segmented { align-self: flex-start; order: -1; margin-bottom: auto; background: rgb(255 248 241 / 0.82) !important; backdrop-filter: blur(8px); }
+
+/* Khối nội dung: đất sét mờ (glass + clay) */
+html.clean body.has-scene .card,
+html.clean body.has-scene .stat-tile,
+html.clean body.has-scene .home-banner {
+  background: var(--od-glass) !important; border: 1px solid var(--od-line) !important; border-radius: var(--od-r-md) !important;
+  box-shadow: var(--od-elev) !important; backdrop-filter: blur(14px) saturate(1.15); -webkit-backdrop-filter: blur(14px) saturate(1.15);
+  color: var(--od-ink) !important;
+}
+html.clean body.has-scene .card:hover, html.clean body.has-scene .stat-tile:hover { box-shadow: var(--od-elev-hover) !important; }
+html.clean body.has-scene .card > h3:first-child, html.clean body.has-scene .card-head h3 { color: var(--od-ink) !important; }
+html.clean body.has-scene .task, html.clean body.has-scene .kcard, html.clean body.has-scene .trow.sel { background: var(--od-glass-strong) !important; border-radius: var(--od-r-sm) !important; }
+html.clean body.has-scene .stat-ic { background: var(--od-glass-strong) !important; border-radius: var(--od-r-sm) !important; }
+
+/* Banner chào trên màn Hôm nay: tranh rõ nét, chữ trên nền kính */
+html.clean body.has-scene .hero, html.clean body.has-scene .hero.time-night, html.clean body.has-scene .hero.time-evening {
+  background: linear-gradient(90deg, rgb(255 248 241 / 0.9) 0%, rgb(255 248 241 / 0.7) 48%, rgb(255 248 241 / 0) 78%), var(--scene) center / cover !important;
+  color: var(--od-ink) !important; border: 1px solid var(--od-line) !important; border-radius: var(--od-r-lg) !important; box-shadow: var(--od-elev) !important;
+  min-height: 300px; grid-template-columns: 150px minmax(0, 1fr) !important; padding: 28px !important;
+}
+html.clean body.has-scene .hero h2 { color: var(--od-ink) !important; font-size: clamp(28px, 3.6vw, 44px); line-height: 1.05; }
+html.clean body.has-scene .hero p { color: var(--od-ink-2); }
+html.clean body.has-scene .hero-art, html.clean body.has-scene .hero .village, html.clean body.has-scene .hero::before { display: none !important; }
+html.clean body.has-scene .hero-pfp { border-color: #fff8f1 !important; box-shadow: var(--od-elev) !important; }
+@media (prefers-color-scheme: dark) {
+  html.clean body.has-scene .hero { background: linear-gradient(90deg, rgb(36 28 24 / 0.92) 0%, rgb(36 28 24 / 0.7) 48%, rgb(36 28 24 / 0) 78%), var(--scene) center / cover !important; }
+}
+@media (max-width: 700px) {
+  html.clean body.has-scene .hero { grid-template-columns: 1fr !important; background: linear-gradient(180deg, rgb(255 248 241 / 0.2) 0%, rgb(255 248 241 / 0.92) 45%), var(--scene) center top / cover !important; padding-top: 120px !important; }
+}
+
+/* Nút: 1 màu nhấn đất nung, có phản hồi khi hover/nhấn */
+html.clean body.has-scene .btn, html.clean body.has-scene .capture button, html.clean body.has-scene .hero-btn, html.clean body.has-scene .chip.on {
+  background: var(--od-accent) !important; color: #fff !important; border-color: var(--od-accent) !important;
+  box-shadow: 4px 6px 14px rgb(128 92 70 / 0.3), inset 0 1px 0 rgb(255 255 255 / 0.25) !important; transition: transform 150ms cubic-bezier(.2,0,0,1), background 150ms;
+}
+html.clean body.has-scene .btn:hover, html.clean body.has-scene .capture button:hover, html.clean body.has-scene .hero-btn:hover { background: var(--od-accent-hover) !important; transform: translateY(-1px); }
+html.clean body.has-scene .btn:active, html.clean body.has-scene .chip:active { transform: translateY(1px) scale(0.98); }
+html.clean body.has-scene .chip { background: var(--od-glass-strong) !important; border: 1px solid var(--od-line) !important; color: var(--od-ink) !important; }
+html.clean body.has-scene :focus-visible { outline: none; box-shadow: 0 0 0 4px rgb(180 106 70 / 0.3) !important; border-radius: 10px; }
+html.clean body.has-scene .cbar { background: linear-gradient(180deg, #e2b58f, #b46a46) !important; }
+html.clean body.has-scene .cbar-col.today .cbar { background: linear-gradient(180deg, #8fbf8a, #4d8f5a) !important; }
+html.clean body.has-scene .home-banner { color: var(--od-ink) !important; }
+html.clean body.has-scene .hb-btn { color: #fff !important; background: var(--od-accent) !important; }
+
+/* Ẩn trang trí mùa lễ khi đang dùng bối cảnh tranh (tránh rối mắt) — tuyết vẫn giữ nếu Noel */
+html.clean body.has-scene .tabs::before { display: none !important; }
+
+/* Thẻ cài đặt bối cảnh */
+.scene-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px; margin: 12px 0; }
+.scene-slot { display: grid; gap: 6px; }
+.scene-thumb { aspect-ratio: 16 / 10; border-radius: 14px; background: var(--surface-2) center / cover; display: flex; align-items: flex-end; padding: 8px; box-shadow: inset 0 -40px 30px -20px rgb(0 0 0 / 0.45); }
+.scene-thumb b { color: #fff; font-size: 13px; text-shadow: 0 1px 6px rgb(0 0 0 / 0.5); }
+@media (prefers-reduced-motion: reduce) { html.clean body.has-scene * { transition: none !important; } }
+
+/* Màn Việc 3 cột: mỗi cột là một tấm kính mờ trên tranh */
+html.clean body.has-scene .tnav, html.clean body.has-scene .tdetail {
+  background: var(--od-glass-strong) !important; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+}
+html.clean body.has-scene .tlist {
+  margin: 14px; border-radius: var(--od-r-lg); background: var(--od-glass) !important; border: 1px solid var(--od-line);
+  backdrop-filter: blur(14px) saturate(1.15); -webkit-backdrop-filter: blur(14px) saturate(1.15); box-shadow: var(--od-elev); align-self: start; min-height: calc(100vh - 92px);
+}
+html.clean body.has-scene .tlist-head h2 { color: var(--od-ink) !important; }
+html.clean body.has-scene .tnav-item.on { background: rgb(180 106 70 / 0.14) !important; }
+html.clean body.has-scene .today-date {
+  display: inline-block; padding: 4px 12px; border-radius: 999px; background: var(--od-glass-strong); color: var(--od-ink-2) !important; box-shadow: var(--od-elev);
+}
+html.clean body.has-scene .board, html.clean body.has-scene .matrix, html.clean body.has-scene .month { position: relative; }
+html.clean body.has-scene .kcol, html.clean body.has-scene .quad, html.clean body.has-scene .mcell:not(.out) {
+  background: var(--od-glass) !important; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+}
+
+/* =====================================================================
+   P26: TRANH LÀ PHẦN CHÍNH — hiển thị rõ nét, không làm mờ, không phủ nhạt.
+   Mỗi màn: nửa trên là "sân khấu" nhìn thẳng vào tranh; tiêu đề trong nhãn kính nhỏ;
+   nội dung là các tấm kính nằm bên dưới, cuộn lên trên tranh.
+   ===================================================================== */
+html.clean body.has-scene::before { transform: none; filter: none; background: var(--scene) center / cover no-repeat; }
+html.clean body.has-scene main::before {
+  /* chỉ một dải tối rất nhẹ ở mép dưới để tấm kính nổi lên — không phủ mờ tranh */
+  background: linear-gradient(180deg, transparent 55%, rgb(30 20 15 / 0.18) 100%);
+}
+@media (prefers-color-scheme: dark) { html.clean body.has-scene main::before { background: linear-gradient(180deg, transparent 50%, rgb(10 6 4 / 0.45) 100%); } }
+html.clean body.has-scene .app-header { background: rgb(255 248 241 / 0.72) !important; }
+
+/* Sân khấu: tiêu đề màn thành khung trong suốt cao ~nửa màn hình */
+html.clean body.has-scene .view-head {
+  min-height: clamp(240px, 48vh, 560px); background: none !important; box-shadow: none !important; border-radius: 0 !important;
+  padding: 0 0 18px !important; justify-content: space-between;
+}
+html.clean body.has-scene .view-head > :not(.segmented):not(.card-head) { align-self: flex-start; }
+html.clean body.has-scene .view-head h2,
+html.clean body.has-scene .view-head .card-head {
+  align-self: flex-start; display: inline-flex; gap: 12px; align-items: center; margin-top: auto;
+  padding: 10px 18px; border-radius: var(--od-r-md); background: rgb(255 248 241 / 0.86) !important;
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: var(--od-elev);
+  color: var(--od-ink) !important; text-shadow: none; font-size: clamp(22px, 2.6vw, 32px) !important;
+}
+html.clean body.has-scene .view-head .card-head h2 { padding: 0; background: none !important; box-shadow: none; backdrop-filter: none; margin: 0; }
+html.clean body.has-scene .view-head > .muted {
+  max-width: 60ch; padding: 8px 14px; border-radius: var(--od-r-sm); background: rgb(255 248 241 / 0.8);
+  color: var(--od-ink-2) !important; text-shadow: none; font-size: 13.5px;
+}
+html.clean body.has-scene .view-head .segmented { margin-bottom: 0; }
+
+/* Hôm nay: banner trong suốt — nhìn thẳng tranh, lời chào trong một tấm kính gọn */
+html.clean body.has-scene .hero, html.clean body.has-scene .hero.time-night, html.clean body.has-scene .hero.time-evening {
+  background: none !important; border: 0 !important; box-shadow: none !important; padding: 0 !important;
+  min-height: clamp(300px, 56vh, 620px); display: flex !important; align-items: flex-end; gap: 14px;
+}
+html.clean body.has-scene .hero-avatar { height: auto !important; align-self: flex-end; }
+html.clean body.has-scene .hero-pfp { width: 96px !important; height: 96px !important; }
+html.clean body.has-scene .hero-text {
+  max-width: 560px; padding: 18px 22px; border-radius: var(--od-r-lg);
+  background: rgb(255 248 241 / 0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: var(--od-elev);
+}
+html.clean body.has-scene .hero h2 { font-size: clamp(24px, 2.8vw, 34px) !important; }
+html.clean body.has-scene .today-date { margin-bottom: 10px; }
+@media (prefers-color-scheme: dark) {
+  html.clean body.has-scene .hero-text, html.clean body.has-scene .view-head h2, html.clean body.has-scene .view-head .card-head, html.clean body.has-scene .view-head > .muted { background: rgb(36 28 24 / 0.86) !important; }
+}
+@media (max-width: 700px) {
+  html.clean body.has-scene .hero { min-height: 62vh; flex-direction: column; align-items: flex-start; justify-content: flex-end; }
+  html.clean body.has-scene .hero-avatar { display: none; }
+  html.clean body.has-scene .view-head { min-height: 38vh; }
+}
+
+/* Tấm kính nội dung đậm hơn chút để đọc dễ khi tranh rõ nét phía sau */
+html.clean body.has-scene { --od-glass: rgb(255 248 241 / 0.86); --od-glass-strong: rgb(255 248 241 / 0.94); }
+@media (prefers-color-scheme: dark) { html.clean body.has-scene { --od-glass: rgb(36 28 24 / 0.86); --od-glass-strong: rgb(36 28 24 / 0.94); } }
+
+/* Màn Việc (3 cột, không có tiêu đề lớn): thu hẹp tấm kính để tranh lộ ra hai bên */
+@media (min-width: 1200px) {
+  html.clean body.has-scene .tt { grid-template-columns: 220px minmax(0, 1fr) minmax(280px, 340px); gap: 16px; padding: 16px; }
+  html.clean body.has-scene .tnav, html.clean body.has-scene .tdetail { border-radius: var(--od-r-lg); border: 1px solid var(--od-line); top: 78px; height: auto; max-height: calc(100vh - 96px); box-shadow: var(--od-elev); }
+  html.clean body.has-scene .tlist { margin: 0; min-height: 0; }
+}

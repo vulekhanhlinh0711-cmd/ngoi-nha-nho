@@ -1,0 +1,323 @@
+/* =====================================================================
+   P28: Hiệu ứng "Aero Glass" kiểu Windows Vista (nạp sau perf.css).
+   · Khung cửa sổ: kính ánh xanh, vệt bóng ở nửa trên, viền trắng trong + viền tối ngoài, quầng sáng.
+   · Thanh bên = taskbar kính tối; nút = pha lê bóng, phát sáng khi rê chuột.
+   · Kính mờ thật (backdrop-filter) chỉ dùng ở thanh bên + nhãn tiêu đề (vùng nhỏ / đứng yên) để giữ mượt.
+   · Khung nội dung: kính trắng gần đục (đọc rõ) + vệt bóng Vista.
+   ===================================================================== */
+html.clean body.has-scene {
+  --aero-tint: rgb(28 66 112 / 0.62);
+  --aero-tint-dark: rgb(12 26 44 / 0.78);
+  --aero-sheen: linear-gradient(180deg, rgb(255 255 255 / 0.55) 0%, rgb(255 255 255 / 0.16) 46%, rgb(255 255 255 / 0) 50%, rgb(255 255 255 / 0.04) 100%);
+  --aero-edge: inset 0 0 0 1px rgb(255 255 255 / 0.65), inset 0 1px 0 rgb(255 255 255 / 0.9);
+  --aero-outline: 0 0 0 1px rgb(10 30 60 / 0.38);
+  --aero-glow: 0 8px 28px rgb(10 30 60 / 0.28), 0 0 18px rgb(120 190 255 / 0.18);
+  --aero-btn: linear-gradient(180deg, #8fd0ff 0%, #4ea6e8 48%, #2b7fc9 50%, #3d9be0 100%);
+  --aero-btn-hover: linear-gradient(180deg, #b3e1ff 0%, #6bbcf5 48%, #3b93dc 50%, #57b3f2 100%);
+  --od-accent: #2b7fc9;
+  --tint: #2b7fc9; --accent: #2b7fc9;
+}
+
+/* ---------- Thanh bên = taskbar Vista ---------- */
+@media (min-width: 900px) {
+  html.clean body.has-scene .tabs {
+    background: linear-gradient(180deg, rgb(255 255 255 / 0.18) 0%, rgb(255 255 255 / 0.04) 50%, rgb(0 0 0 / 0.12) 51%), var(--aero-tint-dark) !important;
+    backdrop-filter: blur(14px) saturate(1.5) !important; -webkit-backdrop-filter: blur(14px) saturate(1.5) !important;
+    border: 1px solid rgb(0 0 0 / 0.55) !important; box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.22), 0 12px 36px rgb(0 0 0 / 0.4) !important;
+  }
+  html.clean body.has-scene .tabs a { color: #eaf4ff !important; text-shadow: 0 1px 2px rgb(0 0 0 / 0.6); border-radius: 10px !important; border: 1px solid transparent; }
+  html.clean body.has-scene .tabs a:hover {
+    background: radial-gradient(ellipse at 50% 100%, rgb(120 200 255 / 0.55), rgb(120 200 255 / 0) 70%), rgb(255 255 255 / 0.1) !important;
+    border-color: rgb(255 255 255 / 0.35); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.5);
+  }
+  html.clean body.has-scene .tabs a.active {
+    background: var(--aero-sheen), radial-gradient(ellipse at 50% 110%, rgb(130 210 255 / 0.9), rgb(60 140 220 / 0.55) 70%) !important;
+    color: #fff !important; border-color: rgb(255 255 255 / 0.55); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.8), 0 0 14px rgb(120 200 255 / 0.65) !important;
+  }
+  html.clean body.has-scene .profile-hi { color: #fff; text-shadow: 0 0 8px rgb(120 200 255 / 0.9); }
+}
+
+/* ---------- Thanh trên: khung tiêu đề cửa sổ ---------- */
+html.clean body.has-scene .app-header {
+  background: var(--aero-sheen), linear-gradient(180deg, rgb(225 238 252 / 0.95), rgb(200 222 245 / 0.95)) !important;
+  border-bottom: 1px solid rgb(30 70 120 / 0.35) !important; box-shadow: inset 0 -1px 0 rgb(255 255 255 / 0.6);
+}
+html.clean body.has-scene .brand { color: #12304f; text-shadow: 0 1px 0 rgb(255 255 255 / 0.9), 0 0 10px rgb(255 255 255 / 0.9); }
+html.clean body.has-scene .capture input {
+  background: linear-gradient(180deg, #fdfeff, #f1f6fb) !important; border: 1px solid #8fb2d6 !important; border-radius: 8px !important;
+  box-shadow: inset 0 1px 2px rgb(0 40 90 / 0.15) !important; color: #102a43;
+}
+html.clean body.has-scene .capture input:focus { border-color: #3d9be0 !important; box-shadow: inset 0 1px 2px rgb(0 40 90 / 0.15), 0 0 0 3px rgb(80 170 240 / 0.35), 0 0 12px rgb(80 170 240 / 0.45) !important; }
+html.clean body.has-scene .pill { background: var(--aero-sheen), linear-gradient(180deg, #f7fbff, #dbe9f7) !important; border: 1px solid #9dbad8 !important; box-shadow: inset 0 1px 0 #fff !important; }
+
+/* ---------- Nút pha lê ---------- */
+html.clean body.has-scene .btn, html.clean body.has-scene .capture button, html.clean body.has-scene .hero-btn, html.clean body.has-scene .chip.on, html.clean body.has-scene .hb-btn {
+  background: var(--aero-btn) !important; color: #fff !important; border: 1px solid #1d5f9e !important;
+  text-shadow: 0 -1px 0 rgb(0 40 90 / 0.5); border-radius: 8px !important;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.75), inset 0 0 0 1px rgb(255 255 255 / 0.25), 0 2px 6px rgb(0 40 90 / 0.3) !important;
+  transition: box-shadow 200ms, filter 200ms, transform 120ms;
+}
+html.clean body.has-scene .btn:hover, html.clean body.has-scene .capture button:hover, html.clean body.has-scene .hero-btn:hover, html.clean body.has-scene .hb-btn:hover {
+  background: var(--aero-btn-hover) !important; box-shadow: inset 0 1px 0 #fff, 0 0 14px rgb(90 180 255 / 0.85), 0 2px 6px rgb(0 40 90 / 0.3) !important;
+}
+html.clean body.has-scene .chip {
+  background: linear-gradient(180deg, #ffffff 0%, #f2f6fa 48%, #e3ebf3 50%, #eef3f8 100%) !important; color: #1b2f45 !important;
+  border: 1px solid #a7bdd3 !important; border-radius: 7px !important; box-shadow: inset 0 1px 0 #fff !important;
+}
+html.clean body.has-scene .chip:hover:not(:disabled) {
+  background: linear-gradient(180deg, #f2faff 0%, #dff1fd 48%, #c4e4fb 50%, #d9effd 100%) !important; border-color: #6fb3e8 !important;
+  box-shadow: inset 0 1px 0 #fff, 0 0 8px rgb(110 190 255 / 0.55) !important;
+}
+html.clean body.has-scene .chip.on { color: #fff !important; }
+
+/* ---------- Khung nội dung = cửa sổ kính ---------- */
+html.clean body.has-scene .card, html.clean body.has-scene .stat-tile, html.clean body.has-scene .home-banner,
+html.clean body.has-scene .tlist, html.clean body.has-scene .tnav, html.clean body.has-scene .tdetail, html.clean body.has-scene .hero-text {
+  background: var(--aero-sheen), linear-gradient(180deg, rgb(250 252 255 / 0.95), rgb(238 245 252 / 0.95)) !important;
+  border: 0 !important; border-radius: 10px !important;
+  box-shadow: var(--aero-edge), var(--aero-outline), var(--aero-glow) !important; color: #14273b !important;
+}
+html.clean body.has-scene .card:hover, html.clean body.has-scene .stat-tile:hover { box-shadow: var(--aero-edge), 0 0 0 1px rgb(40 120 200 / 0.55), 0 0 22px rgb(110 190 255 / 0.45), var(--aero-glow) !important; }
+html.clean body.has-scene .card > h3:first-child, html.clean body.has-scene .card-head h3 { color: #12304f !important; }
+html.clean body.has-scene .muted, html.clean body.has-scene .meta-text, html.clean body.has-scene .stat-label, html.clean body.has-scene .stat-sub { color: #44586d !important; }
+html.clean body.has-scene .stat-value { color: #0f2740 !important; }
+html.clean body.has-scene .task, html.clean body.has-scene .kcard {
+  background: linear-gradient(180deg, #ffffff, #f4f8fc) !important; border: 1px solid #c9d8e7 !important; border-radius: 6px !important;
+}
+html.clean body.has-scene .task:hover, html.clean body.has-scene .trow:hover { background: linear-gradient(180deg, #f3faff, #e2f1fd) !important; border-color: #8cc4ef !important; }
+html.clean body.has-scene .trow.sel { background: linear-gradient(180deg, #e6f4ff, #cde8fc) !important; box-shadow: inset 0 0 0 1px #7db8e8; }
+html.clean body.has-scene .stat-ic { background: radial-gradient(circle at 50% 30%, #fff, #e6f0fa) !important; box-shadow: inset 0 1px 0 #fff, 0 0 0 1px #b9cde1 !important; border-radius: 50% !important; }
+
+/* ---------- Nhãn tiêu đề trên tranh = thanh tiêu đề Aero ---------- */
+html.clean body.has-scene .view-head h2, html.clean body.has-scene .view-head .card-head {
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.28) 0%, rgb(255 255 255 / 0.08) 50%, rgb(255 255 255 / 0) 51%), var(--aero-tint) !important;
+  backdrop-filter: blur(12px) saturate(1.6) !important; -webkit-backdrop-filter: blur(12px) saturate(1.6) !important;
+  color: #fff !important; border-radius: 10px !important;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.45), 0 0 0 1px rgb(0 20 50 / 0.5), 0 8px 24px rgb(0 20 50 / 0.35) !important;
+  text-shadow: 0 0 10px rgb(0 30 70 / 0.9), 0 1px 2px rgb(0 0 0 / 0.6);
+}
+html.clean body.has-scene .view-head .card-head h2 { background: none !important; box-shadow: none !important; backdrop-filter: none !important; }
+html.clean body.has-scene .view-head > .muted, html.clean body.has-scene .today-date {
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.25), rgb(255 255 255 / 0) 52%), var(--aero-tint-dark) !important; color: #eef6ff !important;
+  border-radius: 8px; box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.3) !important; text-shadow: 0 1px 2px rgb(0 0 0 / 0.5);
+}
+html.clean body.has-scene .view-head .segmented {
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.3), rgb(255 255 255 / 0.05) 50%, rgb(0 0 0 / 0.05) 51%), var(--aero-tint) !important;
+  border: 1px solid rgb(0 20 50 / 0.5) !important; box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.35);
+}
+html.clean body.has-scene .view-head .segmented a { color: #eaf4ff !important; text-shadow: 0 1px 2px rgb(0 0 0 / 0.5); }
+html.clean body.has-scene .view-head .segmented a.on { background: var(--aero-sheen), linear-gradient(180deg, #fff, #e4effa) !important; color: #12304f !important; text-shadow: none; }
+html.clean body.has-scene .hero h2 { color: #0f2740 !important; text-shadow: 0 0 12px rgb(255 255 255 / 0.9); }
+html.clean body.has-scene .hero p { color: #34495e !important; }
+
+/* Ô nhập, biểu đồ, thanh tiến độ */
+html.clean body.has-scene .input { background: linear-gradient(180deg, #ffffff, #f4f8fc) !important; border: 1px solid #a9c1d9 !important; border-radius: 6px !important; color: #102a43 !important; }
+html.clean body.has-scene .input:focus { border-color: #3d9be0 !important; box-shadow: 0 0 0 3px rgb(80 170 240 / 0.3), 0 0 10px rgb(80 170 240 / 0.4) !important; }
+html.clean body.has-scene .cbar { background: linear-gradient(90deg, #3d8fd6 0%, #8fd0ff 45%, #3d8fd6 100%) !important; box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.4) !important; }
+html.clean body.has-scene .cbar-col.today .cbar { background: linear-gradient(90deg, #2e9c4f 0%, #9be3a8 45%, #2e9c4f 100%) !important; }
+html.clean body.has-scene .progress span { background: linear-gradient(180deg, #a8f0a0 0%, #4cc04a 50%, #2f9a2f 51%, #46b846 100%) !important; }
+html.clean body.has-scene .progress { background: linear-gradient(180deg, #e9eef3, #d3dce5) !important; border: 1px solid #a7b5c4; }
+
+/* Tối: kính đậm hơn, chữ sáng */
+@media (prefers-color-scheme: dark) {
+  html.clean body.has-scene .card, html.clean body.has-scene .stat-tile, html.clean body.has-scene .home-banner,
+  html.clean body.has-scene .tlist, html.clean body.has-scene .tnav, html.clean body.has-scene .tdetail, html.clean body.has-scene .hero-text {
+    background: linear-gradient(180deg, rgb(255 255 255 / 0.16) 0%, rgb(255 255 255 / 0.04) 46%, rgb(255 255 255 / 0) 50%), rgb(18 30 46 / 0.94) !important; color: #e8f1fb !important;
+  }
+  html.clean body.has-scene .card > h3:first-child, html.clean body.has-scene .card-head h3, html.clean body.has-scene .stat-value, html.clean body.has-scene .hero h2 { color: #f2f8ff !important; text-shadow: none; }
+  html.clean body.has-scene .muted, html.clean body.has-scene .meta-text, html.clean body.has-scene .stat-label, html.clean body.has-scene .stat-sub, html.clean body.has-scene .hero p { color: #b6c7d9 !important; }
+  html.clean body.has-scene .task, html.clean body.has-scene .kcard, html.clean body.has-scene .input { background: rgb(30 46 66 / 0.95) !important; border-color: #3a5878 !important; color: #e8f1fb !important; }
+  html.clean body.has-scene .chip { background: linear-gradient(180deg, #3b5574 0%, #2c4560 48%, #213a54 50%, #2a4560 100%) !important; color: #eaf4ff !important; border-color: #4f7096 !important; box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.2) !important; }
+  html.clean body.has-scene .app-header { background: var(--aero-sheen), linear-gradient(180deg, rgb(26 44 66 / 0.96), rgb(16 30 48 / 0.96)) !important; }
+  html.clean body.has-scene .brand { color: #eaf4ff; text-shadow: 0 0 10px rgb(90 170 240 / 0.6); }
+  html.clean body.has-scene .capture input { background: rgb(20 34 52) !important; color: #e8f1fb; border-color: #3a5878 !important; }
+  html.clean body.has-scene .pill { background: linear-gradient(180deg, #2c4560, #1d3148) !important; border-color: #3a5878 !important; color: #eaf4ff; }
+}
+html.lite body.has-scene .tabs, html.lite body.has-scene .view-head h2, html.lite body.has-scene .view-head .card-head { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+
+/* =====================================================================
+   P29: Sửa độ dễ đọc (theo kiểm tra tự động WCAG trên 31 màn)
+   ===================================================================== */
+/* 1) Bảng màu thống nhất khi có tranh — ghi đè biến của Noel/clay để không trộn nền tối + chữ tối */
+html.clean body.has-scene {
+  --bg: #eef4fa; --surface: #ffffff; --surface-2: #eaf1f8; --hover: #e2eef9; --text: #14273b; --muted: #4a5d71; --faint: #5f7184;
+  --border: #c3d4e5; --accent-soft: #dcecfa; --pink-soft: #eaf1f8; --clay-surface: #ffffff; --clay-ink: #14273b;
+  --od-ink: #14273b; --od-ink-2: #3d5166;
+  --gold: #8a6408; --p1: #2d5fd8; --p2: #b5610b; --p3: #c62b30; --q4: #1b7f52; --week: #2d5fd8; --later: #6a4fd0; --today: #b5610b;
+  color: #14273b;
+}
+/* 2) Nút pha lê: xanh đậm hơn để chữ trắng đọc rõ */
+html.clean body.has-scene {
+  --aero-btn: linear-gradient(180deg, #5aa6e0 0%, #2a78c0 48%, #165a9c 50%, #1f68ad 100%);
+  --aero-btn-hover: linear-gradient(180deg, #74b8ec 0%, #3488cf 48%, #1d68b0 50%, #2777c2 100%);
+}
+/* 3) Thanh bên: tab đang chọn xanh đậm; chữ to hơn */
+@media (min-width: 900px) {
+  html.clean body.has-scene .tabs a { font-size: 12px !important; font-weight: 600 !important; }
+  html.clean body.has-scene .tabs a.active {
+    background: linear-gradient(180deg, rgb(255 255 255 / 0.32) 0%, rgb(255 255 255 / 0.08) 48%, rgb(255 255 255 / 0) 50%), radial-gradient(ellipse at 50% 110%, #3d93db, #155492 75%) !important;
+  }
+}
+@media (max-width: 899px) { html.clean body.has-scene .tabs a { font-size: 11px !important; } }
+/* 4) Màu chữ nhấn đủ đậm trên nền trắng */
+html.clean body.has-scene a:not(.btn):not(.chip):not(.pill):not(.stat-tile):not(.home-banner):not([data-nav]):not(.hero-avatar):not(.profile-chip) { color: #1f5fa8; }
+html.clean body.has-scene .tdue, html.clean body.has-scene .tdate, html.clean body.has-scene .tl-card small, html.clean body.has-scene .appt-time, html.clean body.has-scene .noise.on { color: #1f5fa8 !important; }
+html.clean body.has-scene .tdue.overdue { color: #b3261e !important; }
+html.clean body.has-scene .coin, html.clean body.has-scene .pill.coin { color: #7a5600 !important; }
+html.clean body.has-scene .quad h3 { color: color-mix(in srgb, var(--qc) 70%, #000) !important; }
+html.clean body.has-scene .quad-hint, html.clean body.has-scene .count { color: #4a5d71 !important; }
+html.clean body.has-scene .hw-day.today .hw-ring span { background: #155492 !important; }
+.dd-logo { background: linear-gradient(135deg, #12784b, #1f9a64) !important; }
+html.clean body.has-scene .meta-chip { background: #eaf1f8 !important; color: #2c3f53 !important; border: 1px solid #c3d4e5; }
+html.clean body.has-scene .meta-chip.important { color: #8a4b00 !important; }
+html.clean body.has-scene .meta-chip.urgent, html.clean body.has-scene .meta-chip.overdue { color: #a61b1b !important; }
+html.clean body.has-scene .meta-chip.project { color: #14273b !important; }
+html.clean body.has-scene .pill-soft { background: #eaf1f8 !important; color: #3d5166 !important; }
+html.clean body.has-scene .segmented:not(.view-head .segmented) { background: #e3ecf6 !important; }
+html.clean body.has-scene .segmented:not(.view-head .segmented) a { color: #3d5166 !important; }
+html.clean body.has-scene .tnav h4, html.clean body.has-scene .tgroup-head, html.clean body.has-scene .pnav h3 { color: #3d5166 !important; }
+html.clean body.has-scene .kcol-head h3 { color: #14273b !important; }
+html.clean body.has-scene .noise { color: #3d5166; }
+html.clean body.has-scene .donut-hole small, html.clean body.has-scene .cbar-label, html.clean body.has-scene .cbars-axis { color: #4a5d71 !important; }
+html.clean body.has-scene .mood-face small { color: #2c3f53; }
+/* 5) Chữ nằm thẳng trên tranh → đặt lên nhãn kính */
+html.clean body.has-scene main > p, html.clean body.has-scene main > .muted, html.clean body.has-scene main > .small,
+html.clean body.has-scene main > .insight, html.clean body.has-scene .month-wd, html.clean body.has-scene .tempty,
+html.clean body.has-scene main > section > p.muted:only-child, html.clean body.has-scene .house-cards + p,
+html.clean body.has-scene main > div > p.muted {
+  background: rgb(250 252 255 / 0.94) !important; color: #2c3f53 !important; border-radius: 8px;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.7), 0 0 0 1px rgb(10 30 60 / 0.25); padding: 6px 12px; width: fit-content; max-width: 100%;
+}
+html.clean body.has-scene .month-wd { width: auto; padding: 4px 0; }
+html.clean body.has-scene .mcell.out { background: rgb(250 252 255 / 0.7) !important; }
+html.clean body.has-scene .mcell.out .mcell-day { color: #4a5d71; opacity: 1; }
+html.clean body.has-scene .tempty { margin: 20px auto; }
+/* 6) Lượt 2 — các khối chữ còn nằm trên tranh & màu còn nhạt */
+html.clean body.has-scene .entries, html.clean body.has-scene .empty, html.clean body.has-scene main > .toolbar, html.clean body.has-scene .hint {
+  background: var(--aero-sheen), linear-gradient(180deg, rgb(250 252 255 / 0.95), rgb(238 245 252 / 0.95)) !important;
+  border-radius: 10px; box-shadow: var(--aero-edge), var(--aero-outline), var(--aero-glow); padding: 12px 16px; color: #14273b;
+}
+html.clean body.has-scene .entries { margin-top: 14px; }
+html.clean body.has-scene .empty { max-width: 420px; margin: 24px auto; text-align: center; }
+html.clean body.has-scene .toolbar-title { color: #14273b !important; }
+html.clean body.has-scene .stat-sub .up { color: #1b7f52 !important; }
+html.clean body.has-scene .ws-day.on b, html.clean body.has-scene .mcell.is-today .mcell-day { background: #155492 !important; color: #fff !important; }
+html.clean body.has-scene { --money: #1f5f99; --money-in: #1f7a46; }
+html.clean body.has-scene .tgroup-head[style] { color: color-mix(in srgb, var(--gc) 62%, #000) !important; }
+html.clean body.has-scene .mcell.out { background: rgb(250 252 255 / 0.9) !important; }
+html.clean body.has-scene .donut-hole { background: #fff !important; }
+.dd-logo { background: linear-gradient(135deg, #0e6a41, #16804f) !important; }
+@media (prefers-color-scheme: dark) {
+  html.clean body.has-scene .entries, html.clean body.has-scene .empty, html.clean body.has-scene main > .toolbar, html.clean body.has-scene .hint,
+  html.clean body.has-scene main > p, html.clean body.has-scene main > .muted, html.clean body.has-scene .month-wd, html.clean body.has-scene .tempty, html.clean body.has-scene main > div > p.muted {
+    background: rgb(18 30 46 / 0.95) !important; color: #e8f1fb !important;
+  }
+  html.clean body.has-scene .toolbar-title { color: #f2f8ff !important; }
+  html.clean body.has-scene .donut-hole { background: rgb(18 30 46) !important; }
+}
+@media (min-width: 900px) {
+  html.clean body.has-scene .tabs a.active { background: linear-gradient(180deg, rgb(255 255 255 / 0.28) 0%, rgb(255 255 255 / 0.06) 48%, rgb(255 255 255 / 0) 50%) !important; background-color: #18599a !important; }
+}
+html.clean body.has-scene { --today: #8f4a05; }
+/* 7) Lượt 3 */
+@media (min-width: 900px) {
+  html.clean body.has-scene .tabs a.active { background: linear-gradient(180deg, rgb(255 255 255 / 0.16) 0%, rgb(255 255 255 / 0.03) 48%, rgb(255 255 255 / 0) 50%) !important; background-color: #164f8a !important; }
+}
+@media (max-width: 899px) {
+  html.clean body.has-scene .tabs {
+    background: linear-gradient(180deg, rgb(255 255 255 / 0.14) 0%, rgb(255 255 255 / 0) 50%), rgb(14 30 50 / 0.94) !important;
+    border-top: 1px solid rgb(255 255 255 / 0.25) !important; box-shadow: 0 -6px 20px rgb(0 0 0 / 0.3) !important;
+  }
+  html.clean body.has-scene .tabs a { color: #e6f0fb !important; font-size: 11px !important; }
+  html.clean body.has-scene .tabs a.active { color: #fff !important; background-color: #164f8a !important; border-radius: 10px !important; }
+  html.clean body.has-scene .profile-chip { display: none !important; }
+}
+html.clean body.has-scene .view-head .muted a, html.clean body.has-scene .today-date a { color: #bfe3ff !important; text-decoration: underline; }
+/* 8) Quầng sáng nhẹ hơn (1 lớp bóng thay vì 2) để vẽ lại nhanh */
+html.clean body.has-scene { --aero-glow: 0 6px 18px rgb(10 30 60 / 0.26); }
+html.clean body.has-scene .card:hover, html.clean body.has-scene .stat-tile:hover { box-shadow: var(--aero-edge), 0 0 0 1px rgb(40 120 200 / 0.55), 0 6px 22px rgb(60 150 230 / 0.4) !important; }
+/* P32: nhân vật ảnh 3D */
+.figure-stage.photo { width: 300px; height: 500px; background: #e9eef3; }
+.figure-stage.photo .char-photo { object-position: 50% 0%; }
+@media (max-width: 520px) { .figure-stage.photo { width: 100%; height: 72vh; } }
+.look-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+.look-card { display: grid; gap: 6px; padding: 6px; border-radius: 12px; border: 2px solid transparent; background: #f4f8fc; cursor: pointer; text-align: center; font-size: 13px; font-weight: 600; color: #14273b; }
+.look-card img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; object-position: 50% 0; border-radius: 9px; }
+.look-card.on { border-color: #2b7fc9; box-shadow: 0 0 0 3px rgb(80 170 240 / 0.3), 0 0 14px rgb(80 170 240 / 0.4); }
+.look-card:hover { border-color: #8cc4ef; }
+.look-svg-ic { aspect-ratio: 3 / 4; display: grid; place-items: center; font-size: 40px; background: #e3ecf6; border-radius: 9px; }
+/* P34: nhạc nền */
+.bgm { position: relative; display: inline-flex; gap: 2px; }
+.bgm-btn.playing { animation: bgm-pulse 2.4s ease-in-out infinite; }
+@keyframes bgm-pulse { 50% { box-shadow: 0 0 0 4px rgb(80 170 240 / 0.25), 0 0 14px rgb(80 170 240 / 0.45); } }
+.bgm-more { padding: 4px 6px !important; font-size: 12px; }
+.bgm-panel {
+  position: absolute; right: 0; top: calc(100% + 8px); z-index: 60; width: min(330px, calc(100vw - 24px));
+  display: grid; gap: 10px; padding: 14px; border-radius: 12px; color: #14273b;
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.6) 0%, rgb(255 255 255 / 0.1) 46%, rgb(255 255 255 / 0) 50%), linear-gradient(180deg, #fbfdff, #eef5fc);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.7), 0 0 0 1px rgb(10 30 60 / 0.35), 0 14px 34px rgb(10 30 60 / 0.3);
+}
+.bgm-panel[hidden] { display: none; }
+.bgm-now { display: flex; gap: 10px; align-items: center; }
+.bgm-now .grow { display: grid; }
+.bgm-now small { color: #4a5d71; font-size: 12px; }
+.bgm-ic { font-size: 26px; }
+.bgm-row { display: flex; gap: 8px; }
+.bgm-vol { display: flex; align-items: center; gap: 8px; }
+.bgm-vol input { flex: 1; }
+.bgm-periods { display: flex; flex-wrap: wrap; gap: 6px; }
+@media (prefers-reduced-motion: reduce) { .bgm-btn.playing { animation: none; } }
+@media (prefers-color-scheme: dark) { .bgm-panel { background: linear-gradient(180deg, rgb(255 255 255 / 0.14), rgb(255 255 255 / 0) 50%), #16263a; color: #e8f1fb; } .bgm-now small { color: #b6c7d9; } }
+
+/* ===== P35: ảnh nhật ký kiểu Instagram ===== */
+.entry.has-photos { padding-bottom: 12px; }
+.ig-carousel { position: relative; margin: 10px -16px; }
+.ig-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.ig-track::-webkit-scrollbar { display: none; }
+.ig-slide { flex: 0 0 100%; scroll-snap-align: center; border: 0; padding: 0; background: #0f1720; position: relative; cursor: zoom-in; aspect-ratio: 4 / 5; max-height: 640px; }
+.ig-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ig-carousel:not(.multi) .ig-slide { aspect-ratio: auto; max-height: 680px; }
+.ig-carousel:not(.multi) .ig-slide img { height: auto; max-height: 680px; object-fit: contain; }
+.ig-dots { position: absolute; bottom: 10px; left: 0; right: 0; display: flex; justify-content: center; gap: 5px; pointer-events: none; }
+.ig-dots span { width: 6px; height: 6px; border-radius: 50%; background: rgb(255 255 255 / 0.55); box-shadow: 0 0 3px rgb(0 0 0 / 0.4); }
+.ig-dots span.on { background: #fff; }
+.ig-count { position: absolute; top: 10px; right: 12px; background: rgb(0 0 0 / 0.55); color: #fff; font-size: 12px; padding: 2px 8px; border-radius: 999px; }
+.ig-wall-badge { position: absolute; top: 8px; left: 8px; background: rgb(255 255 255 / 0.9); border-radius: 999px; padding: 2px 6px; font-size: 13px; }
+.ig-missing { margin: 10px 0; padding: 18px; border-radius: 10px; background: #eaf1f8; color: #3d5166; text-align: center; font-size: 13px; }
+.ig-preview { display: flex; gap: 8px; overflow-x: auto; padding: 4px 0; }
+.ig-prev-item { position: relative; flex: none; width: 84px; height: 84px; border-radius: 10px; overflow: hidden; box-shadow: 0 0 0 1px #c3d4e5; }
+.ig-prev-item img { width: 100%; height: 100%; object-fit: cover; }
+.ig-prev-x { position: absolute; top: 3px; right: 3px; width: 22px; height: 22px; border-radius: 50%; border: 0; background: rgb(0 0 0 / 0.6); color: #fff; font-size: 11px; cursor: pointer; }
+
+/* Xem toàn màn hình */
+dialog.lightbox { border: 0; padding: 0; width: 100vw; height: 100dvh; max-width: none; max-height: none; background: rgb(8 12 18 / 0.96); display: grid; place-items: center; }
+dialog.lightbox::backdrop { background: rgb(0 0 0 / 0.7); }
+.lb-img { max-width: 96vw; max-height: 80dvh; object-fit: contain; border-radius: 6px; touch-action: pan-y; user-select: none; }
+.lb-close { position: fixed; top: 14px; right: 14px; width: 42px; height: 42px; border-radius: 50%; border: 1px solid rgb(255 255 255 / 0.35); background: rgb(255 255 255 / 0.12); color: #fff; font-size: 18px; cursor: pointer; z-index: 2; }
+.lb-nav { position: fixed; top: 50%; transform: translateY(-50%); width: 46px; height: 46px; border-radius: 50%; border: 0; background: rgb(255 255 255 / 0.16); color: #fff; font-size: 28px; cursor: pointer; }
+.lb-nav.prev { left: 12px; } .lb-nav.next { right: 12px; }
+.lb-bar { position: fixed; left: 0; right: 0; bottom: 0; display: grid; justify-items: center; gap: 8px; padding: 14px 16px calc(14px + env(safe-area-inset-bottom)); background: linear-gradient(transparent, rgb(0 0 0 / 0.7)); color: #fff; }
+.lb-count { font-size: 13px; opacity: 0.8; }
+.lb-cap { margin: 0; max-width: 680px; text-align: center; font-size: 14px; opacity: 0.92; max-height: 4.5em; overflow: auto; }
+.lb-btn { border: 1px solid rgb(255 255 255 / 0.5); background: linear-gradient(180deg, #5aa6e0 0%, #2a78c0 48%, #165a9c 50%, #1f68ad 100%); color: #fff; border-radius: 999px; padding: 9px 18px; font-weight: 700; cursor: pointer; }
+.lb-btn.on { background: rgb(255 255 255 / 0.15); }
+
+/* Album */
+.album-stats { display: flex; justify-content: space-around; text-align: center; }
+.album-stats div { display: grid; }
+.album-stats b { font-size: 22px; }
+.album-stats span { font-size: 12px; color: #4a5d71; }
+.album-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; border-radius: 10px; overflow: hidden; margin-top: 12px; }
+.album-cell { position: relative; aspect-ratio: 1; border: 0; padding: 0; background: #dde6ef; cursor: zoom-in; }
+.album-cell img { width: 100%; height: 100%; object-fit: cover; display: block; transition: filter .15s; }
+.album-cell:hover img { filter: brightness(0.88); }
+@media (min-width: 900px) { .album-grid { grid-template-columns: repeat(4, 1fr); gap: 6px; } }
+
+/* Tường ảnh phòng khách */
+.wall-gallery { top: 10%; left: 50%; transform: translateX(-50%); gap: 18px; flex-wrap: wrap; justify-content: center; max-width: 70%; z-index: 2; }
+.wall-gallery .frame { width: 92px; height: 112px; padding: 6px 6px 16px; background: #fffdf8; border: 3px solid #b07a4a; cursor: zoom-in; box-shadow: 0 6px 14px rgb(40 20 10 / 0.35); }
+.wall-gallery .frame:hover { transform: rotate(0) scale(1.06); }
+@media (max-width: 700px) { .wall-gallery .frame { width: 64px; height: 80px; } }
+.bgm-ev { display: grid; gap: 6px; padding-top: 8px; border-top: 1px solid #c3d4e5; }
+.bgm-panel { max-height: calc(100dvh - 90px); overflow-y: auto; }
+.bgm-panel details p { margin: 4px 0; font-size: 12px; color: #3d5166; }
