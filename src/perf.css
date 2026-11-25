@@ -1,0 +1,68 @@
+/* =====================================================================
+   P27: TỐI ƯU MƯỢT — nạp sau cùng. Giữ nguyên vẻ ngoài, đổi cách vẽ:
+   · Tuyết rơi: chạy bằng transform trên lớp GPU riêng (không vẽ lại cả màn mỗi khung hình).
+   · Đèn nháy: đổi filter → opacity (GPU), chậm lại.
+   · Kính mờ (backdrop-filter) trên các tấm lớn → nền đặc hơn (gần như y hệt, rẻ hơn rất nhiều khi cuộn).
+   · Bỏ background-attachment: fixed (gây vẽ lại toàn trang khi cuộn).
+   · Chế độ nhẹ (html.lite): tắt hẳn hoạt ảnh & tranh động — tự bật khi máy yêu cầu giảm chuyển động.
+   ===================================================================== */
+
+/* 1) Tuyết: lớp cố định cao gấp đôi, trượt bằng transform */
+html.clean[data-season=noel] body::after {
+  inset: -220px 0 auto 0 !important; height: calc(100vh + 440px); animation: snow-fall 16s linear infinite !important;
+  will-change: transform; filter: none !important; background-repeat: repeat;
+}
+@keyframes snow-fall { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(40px, 220px, 0); } }
+
+/* 2) Đèn nháy trên banner: dùng opacity thay filter */
+html.clean[data-season=noel] .hero::before { animation: twinkle-o 2.4s ease-in-out infinite !important; will-change: opacity; }
+@keyframes twinkle-o { 50% { opacity: .55; } }
+.vdot { animation-duration: 4s !important; will-change: opacity; }
+
+/* 3) Kính mờ → nền đặc trên các tấm lớn (giữ blur ở vài chỗ nhỏ) */
+html.clean .card, html.clean .stat-tile, html.clean .home-banner, html.clean .tlist, html.clean .tnav, html.clean .tdetail,
+html.clean .kcol, html.clean .quad, html.clean .mcell, html.clean .tabs, html.clean .app-header, html.clean .hero-text,
+html.clean .view-head h2, html.clean .view-head .card-head, html.clean .room-panel {
+  backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+}
+html.clean body.has-scene { --od-glass: rgb(255 248 241 / 0.9); --od-glass-strong: rgb(255 248 241 / 0.96); }
+html.clean body.has-scene .tabs { background: rgb(52 40 34 / 0.86) !important; }
+html.clean body.has-scene .app-header { background: rgb(255 248 241 / 0.9) !important; }
+@media (prefers-color-scheme: dark) { html.clean body.has-scene { --od-glass: rgb(36 28 24 / 0.9); --od-glass-strong: rgb(36 28 24 / 0.96); } }
+
+/* 4) Nền: không dùng background-attachment: fixed */
+html.clean body, html.clean[data-season] body, body { background-attachment: scroll !important; }
+html.clean body.has-scene::before { will-change: transform; transform: translateZ(0); }
+
+/* 5) Không vẽ phần nằm ngoài màn hình (danh sách dài) */
+.task-list > li, .trow, .kcard, .log-list > li { content-visibility: auto; contain-intrinsic-size: auto 48px; }
+
+/* 6) Chế độ nhẹ */
+html.lite *, html.lite *::before, html.lite *::after { animation: none !important; transition: none !important; }
+html.lite body::after { display: none !important; }
+html.lite .hero::before { display: none !important; }
+html.lite .card, html.lite .stat-tile { box-shadow: 0 1px 3px rgb(0 0 0 / .08) !important; }
+
+/* P31: Focus Room trên điện thoại — thanh nút luôn bấm được, bảng thành tấm trượt dưới, có nút đóng */
+.room-top { z-index: 6 !important; }
+.room-panel-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+.room-panel-head h3 { margin: 0 !important; }
+.room-close {
+  flex: none; width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgb(255 255 255 / 0.35);
+  background: rgb(255 255 255 / 0.15); color: #fff; font-size: 16px; cursor: pointer;
+}
+.room-close:hover { background: rgb(255 255 255 / 0.3); }
+@media (max-width: 700px) {
+  .room-top { flex-wrap: nowrap !important; flex-direction: column; align-items: stretch; gap: 8px !important; padding: 10px !important; }
+  .room-scenes { flex-wrap: nowrap !important; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+  .room-scenes .room-chip { flex: none; }
+  .room-tools { justify-content: flex-end; }
+  .room-tools .room-chip { padding: 8px 14px; font-size: 15px; }
+  .room-panel, .room-music {
+    left: 8px !important; right: 8px !important; bottom: 8px !important; top: auto !important; width: auto !important;
+    max-height: 58vh !important; border-radius: 20px !important;
+  }
+  .room-music .room-panel { max-height: none !important; }
+  .room-panel { overflow-y: auto; overscroll-behavior: contain; }
+  .mix-row { grid-template-columns: 1fr 1.3fr !important; }
+}

@@ -1,0 +1,200 @@
+/* P16: ảnh đại diện, nền theo mùa/lễ, hộp sửa danh sách. */
+
+/* ---------- Ảnh đại diện ---------- */
+.pfp { display: inline-block; border-radius: 50%; overflow: hidden; background: #f3ece6; flex: none; }
+.pfp > svg, .pfp > img { width: 100%; height: 100%; display: block; object-fit: cover; }
+.hero-pfp { width: 168px; height: 168px; position: relative; border: 5px solid rgb(255 255 255 / .9); box-shadow: 0 12px 26px rgb(80 50 150 / .25), 0 -6px 10px rgb(0 0 0 / .06) inset; }
+.hero-avatar { place-items: center; }
+.settings-pfp { width: 110px; height: 110px; border: 4px solid var(--surface); box-shadow: var(--clay, var(--shadow)); }
+.profile-row { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
+.profile-chip { display: none; }
+html.clean .tabs::before { display: none; }
+@media (min-width: 900px) {
+  html.clean .profile-chip {
+    display: grid; justify-items: center; gap: 4px; position: absolute; top: 14px; left: 0; right: 0; text-decoration: none; color: #fff;
+  }
+  html.clean .nav-pfp { width: 58px; height: 58px; border: 3px solid #fff; box-shadow: 0 6px 14px rgb(40 20 100 / .3); }
+  html.clean .profile-hi { font: 700 11px var(--display, inherit); text-align: center; max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  html.clean .tabs { padding-top: 104px; }
+}
+@media (max-width: 900px) { .hero-pfp { width: 110px; height: 110px; } }
+.hero-season { font: 800 15px var(--display, inherit); margin: -2px 0 6px !important; opacity: 1 !important; }
+
+/* ---------- Hộp sửa danh sách ---------- */
+.pe { display: grid; gap: 10px; padding: 18px; }
+.pe-head { display: flex; gap: 10px; align-items: center; }
+.pe-preview { width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; font-size: 24px; background: color-mix(in srgb, var(--pc) 30%, var(--surface)); flex: none; }
+.pe h4 { margin: 4px 0 0; font-size: 13px; color: var(--muted); }
+.pe-icons { display: grid; grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); gap: 6px; }
+.pe-ic { height: 40px; border: 0; border-radius: 10px; background: var(--surface-2); font-size: 20px; cursor: pointer; }
+.pe-ic:hover { transform: scale(1.08); }
+.pe-ic.on { background: var(--accent-soft); outline: 2px solid var(--accent); }
+.swatch.custom { position: relative; overflow: hidden; background: conic-gradient(red, yellow, lime, cyan, blue, magenta, red); }
+.swatch.custom input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.tnav-row { position: relative; }
+.tnav-edit { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); border: 0; background: var(--surface); color: var(--muted); border-radius: 7px; width: 26px; height: 26px; opacity: 0; cursor: pointer; }
+.tnav-row:hover .tnav-edit, .tnav-edit:focus-visible { opacity: 1; }
+.tnav-row:hover .tnav-item .count { visibility: hidden; }
+@media (hover: none) { .tnav-edit { opacity: .8; } .tnav-row .tnav-item .count { visibility: hidden; } }
+
+/* ---------- Nền theo mùa ---------- */
+/* Biến chung: --s1 (khối thanh bên), --s2, --hero (banner), --bg1/--bg2 (đốm nền) */
+html.clean[data-season] .tabs { background: linear-gradient(180deg, var(--s1, var(--clay-purple-2)), var(--s2, var(--clay-purple))); }
+html.clean[data-season] .hero:not(.time-night) { background: var(--hero, linear-gradient(135deg, #e7dcff 0%, #d9c9ff 55%, #f3d3ec 100%)); }
+html.clean[data-season] body { background: radial-gradient(900px 500px at 90% -10%, var(--bg1, #f6dff2) 0%, transparent 60%), radial-gradient(900px 600px at 0% 110%, var(--bg2, #dfe9ff) 0%, transparent 60%), var(--bgb, var(--clay-bg)); background-attachment: fixed; }
+html.clean[data-season] .home-banner { background: linear-gradient(135deg, var(--s1, #a993f4), var(--s2, #8164e8)); }
+html.clean[data-season] .hero-btn { background: linear-gradient(180deg, var(--s1), var(--s2)) !important; }
+
+/* Giáng sinh: đỏ – xanh thông, tuyết rơi, dây đèn */
+html.clean[data-season=noel] {
+  --s1: #e35b55; --s2: #2f7d55; --bgb: #f4f1ea; --bg1: #f7d4cf; --bg2: #d3ead9;
+  --hero: linear-gradient(135deg, #fbe3dc 0%, #f7d0c8 40%, #d6ecd9 100%);
+  --clay-purple: #c9433e; --clay-purple-2: #e35b55; --tint: #c9433e;
+}
+html.clean[data-season=noel] .tabs { background: linear-gradient(180deg, #d84a45 0%, #b8352f 45%, #2f7d55 100%); }
+html.clean[data-season=noel] .home-banner { background: linear-gradient(135deg, #d84a45, #2f7d55); }
+html.clean[data-season=noel] .cbar { background: linear-gradient(180deg, #86c9a0, #3f9a6a); }
+html.clean[data-season=noel] .cbar-col.today .cbar { background: linear-gradient(180deg, #ff9c94, #d84a45); }
+html.clean[data-season=noel] .hero { position: relative; }
+html.clean[data-season=noel] .hero::before {
+  /* dây đèn màu trên banner */
+  content: ''; position: absolute; left: 0; right: 0; top: 0; height: 26px; pointer-events: none;
+  background:
+    radial-gradient(circle at 20px 16px, #ffd34d 0 5px, transparent 6px) 0 0 / 80px 26px repeat-x,
+    radial-gradient(circle at 60px 18px, #e84a4a 0 5px, transparent 6px) 0 0 / 80px 26px repeat-x,
+    radial-gradient(circle at 40px 20px, #3fb27a 0 5px, transparent 6px) 0 0 / 80px 26px repeat-x,
+    radial-gradient(ellipse 50% 14px at 50% 0, transparent 11px, #3a5a40 12px 13px, transparent 14px) 0 0 / 80px 26px repeat-x;
+  animation: twinkle 1.8s steps(2) infinite;
+}
+@keyframes twinkle { 50% { filter: brightness(1.35) saturate(1.2); } }
+html.clean[data-season=noel] body::after {
+  /* tuyết rơi */
+  content: ''; position: fixed; inset: -100px 0 0 0; pointer-events: none; z-index: 30;
+  background-image:
+    radial-gradient(3px 3px at 20px 30px, #fff 50%, transparent 51%),
+    radial-gradient(2px 2px at 80px 120px, #fff 50%, transparent 51%),
+    radial-gradient(4px 4px at 150px 60px, #fff 50%, transparent 51%),
+    radial-gradient(2.5px 2.5px at 210px 170px, #fff 50%, transparent 51%),
+    radial-gradient(3px 3px at 260px 90px, #fff 50%, transparent 51%);
+  background-size: 300px 220px;
+  filter: drop-shadow(0 0 2px rgb(150 170 200 / .7));
+  opacity: .85; animation: snow 14s linear infinite;
+}
+@keyframes snow { from { background-position: 0 0; } to { background-position: 60px 220px; } }
+html.clean[data-season=noel] .view-head { background: linear-gradient(120deg, #fbe3dc, #e2f1e5); }
+html.clean[data-season=noel] .view-head h2 { color: #b8352f; }
+
+/* Tết: đỏ – vàng */
+html.clean[data-season=tet] { --s1: #e8473a; --s2: #b8231a; --bgb: #fff6e6; --bg1: #ffd9a8; --bg2: #ffd1c4; --hero: linear-gradient(135deg, #ffe7b8, #ffcdbf 60%, #ffd98a); --tint: #d9332a; --clay-purple: #d9332a; }
+html.clean[data-season=tet] .hero::before { content: '🧧 🌸 🏮 🌼 🧧'; position: absolute; right: 18px; top: 10px; font-size: 18px; letter-spacing: 6px; }
+/* Valentine */
+html.clean[data-season=valentine] { --s1: #f58fb4; --s2: #e0567f; --bgb: #fff0f4; --bg1: #ffd0e0; --bg2: #ffe2ea; --hero: linear-gradient(135deg, #ffe0ea, #ffc7d9 60%, #f6d6ff); --tint: #e0567f; --clay-purple: #e0567f; }
+/* Trung thu */
+html.clean[data-season=midautumn] { --s1: #f5a742; --s2: #c8632a; --bgb: #fff5e8; --bg1: #ffe0a8; --bg2: #f5d1b8; --hero: linear-gradient(135deg, #ffe9c2, #ffd2a6 60%, #f3c6a0); --tint: #d27a2c; --clay-purple: #d27a2c; }
+/* Halloween */
+html.clean[data-season=halloween] { --s1: #f08a3c; --s2: #6a4aa8; --bgb: #f7f0ea; --bg1: #ffd6b0; --bg2: #ddd0f5; --hero: linear-gradient(135deg, #ffd9b8, #e8d4ff); --tint: #e0742c; --clay-purple: #7a55c0; }
+/* Bốn mùa */
+html.clean[data-season=spring] { --s1: #f7a8c4; --s2: #d97aa0; --bgb: #fff5f8; --bg1: #ffd9e8; --bg2: #e2f5d9; --hero: linear-gradient(135deg, #ffe3ee, #fbd3e3 55%, #e6f6dc); --tint: #d9709a; --clay-purple: #d9709a; }
+html.clean[data-season=summer] { --s1: #5cc6d6; --s2: #2e93c9; --bgb: #f0fbfd; --bg1: #c8f0f5; --bg2: #fff1c2; --hero: linear-gradient(135deg, #d6f6fa, #c4e8ff 55%, #fff1c2); --tint: #2e93c9; --clay-purple: #2e93c9; }
+html.clean[data-season=autumn] { --s1: #f2a65a; --s2: #c76b3a; --bgb: #fbf4ec; --bg1: #ffd9b3; --bg2: #f1e0c4; --hero: linear-gradient(135deg, #ffe6c9, #fbd2b0 55%, #f3e0bf); --tint: #c76b3a; --clay-purple: #c76b3a; }
+html.clean[data-season=winter] { --s1: #9db8ef; --s2: #6a86d6; --bgb: #f3f6fd; --bg1: #dbe6ff; --bg2: #e8e2ff; --hero: linear-gradient(135deg, #e4ecff, #d6dfff 55%, #ece4ff); --tint: #5d78cc; --clay-purple: #5d78cc; }
+
+@media (prefers-color-scheme: dark) {
+  html.clean[data-season] body { background: var(--clay-bg); }
+  html.clean[data-season] .view-head { background: var(--clay-surface); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html.clean[data-season=noel] body::after { animation: none; }
+  html.clean[data-season=noel] .hero::before { animation: none; }
+}
+html.clean[data-season=noel] .hero { padding-top: 34px; }
+
+/* ===== P19.02: Noel tối – xanh rêu, đốm vàng, làng Giáng sinh (theo ảnh mẫu) ===== */
+html.clean[data-season=noel] {
+  --bg: #13241d; --surface: #1c3128; --surface-2: #24402f; --text: #f4ecdc; --muted: #b9c2b4; --border: #2e4a3c;
+  --clay-bg: #13241d; --clay-surface: #1c3128; --clay-ink: #f6eedd;
+  --accent: #c9433e; --accent-text: #fff; --accent-soft: #3a2a26; --tint: #e3b964;
+  --gold: #e3b964;
+  --clay: 0 1px 0 rgb(255 255 255 / .06) inset, 0 -6px 12px rgb(0 0 0 / .25) inset, 0 12px 26px rgb(0 0 0 / .35);
+  --clay-lift: 0 1px 0 rgb(255 255 255 / .08) inset, 0 18px 34px rgb(0 0 0 / .5);
+  color-scheme: dark;
+}
+html.clean[data-season=noel] body {
+  background:
+    radial-gradient(3px 3px at 12% 18%, #e3b964 50%, transparent 52%),
+    radial-gradient(4px 4px at 78% 9%, #e3b964 50%, transparent 52%),
+    radial-gradient(2.5px 2.5px at 55% 30%, #e3b964 50%, transparent 52%),
+    radial-gradient(3.5px 3.5px at 90% 44%, #e3b964 50%, transparent 52%),
+    radial-gradient(2px 2px at 30% 62%, #e3b964 50%, transparent 52%),
+    radial-gradient(3px 3px at 66% 80%, #e3b964 50%, transparent 52%),
+    radial-gradient(900px 500px at 50% -10%, #24473a 0%, transparent 70%),
+    linear-gradient(180deg, #17302a, #101c17);
+  background-attachment: fixed;
+}
+html.clean[data-season=noel] .tabs { background: linear-gradient(180deg, #23463a, #17302a); box-shadow: 0 2px 0 rgb(255 255 255 / .08) inset, 0 16px 30px rgb(0 0 0 / .45); border: 1px solid #2e4a3c; }
+html.clean[data-season=noel] .tabs a.active { background: #c9433e; color: #fff; }
+html.clean[data-season=noel] .tabs a.active .tab-ic { background: #fff; stroke: #c9433e; }
+html.clean[data-season=noel] .tabs a.active .tab-ic text { fill: #c9433e; }
+html.clean[data-season=noel] .app-header { background: color-mix(in srgb, #13241d 85%, transparent); }
+html.clean[data-season=noel] .capture input, html.clean[data-season=noel] .pill, html.clean[data-season=noel] .input { background: #1c3128; color: var(--text); border-color: #2e4a3c; }
+html.clean[data-season=noel] .btn, html.clean[data-season=noel] .capture button, html.clean[data-season=noel] .chip.on { background: linear-gradient(180deg, #d9524c, #b8352f); color: #fff; }
+html.clean[data-season=noel] .chip { background: #24402f; color: var(--text); }
+html.clean[data-season=noel] .card, html.clean[data-season=noel] .view-head { background: linear-gradient(180deg, #1f3a2e, #1a2f26); border: 1px solid #2e4a3c; }
+html.clean[data-season=noel] .view-head h2, html.clean[data-season=noel] .card > h3:first-child, html.clean[data-season=noel] .card-head h3 { color: #f0d9a4; font-family: Georgia, "Times New Roman", serif; }
+html.clean[data-season=noel] .view-head::after { background: rgb(227 185 100 / .08); }
+
+/* Banner: trời đêm + làng */
+html.clean[data-season=noel] .hero, html.clean[data-season=noel] .hero.time-night, html.clean[data-season=noel] .hero.time-evening {
+  grid-template-columns: 170px minmax(0, 1fr); padding: 34px 26px 210px; color: #f6eedd;
+  background: radial-gradient(700px 300px at 50% 0%, #2c5a48 0%, transparent 70%), linear-gradient(180deg, #1d3a2f 0%, #17302a 100%);
+  border: 1px solid #2e4a3c; box-shadow: 0 18px 40px rgb(0 0 0 / .45);
+}
+html.clean[data-season=noel] .hero h2 { font-family: Georgia, "Times New Roman", serif; font-weight: 700; color: #f6eedd !important; }
+html.clean[data-season=noel] .hero-season { color: #e3b964; font-family: Georgia, serif; letter-spacing: .5px; }
+html.clean[data-season=noel] .hero .village { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 230px; filter: none; }
+html.clean[data-season=noel] .hero .chip { background: rgb(255 255 255 / .1); color: #f6eedd; border: 1px solid rgb(227 185 100 / .5); }
+html.clean[data-season=noel] .hero-btn { background: linear-gradient(180deg, #d9524c, #b8352f) !important; box-shadow: 0 8px 18px rgb(184 53 47 / .45) !important; }
+html.clean[data-season=noel] .hero-halo { background: radial-gradient(circle, rgb(227 185 100 / .45), transparent 70%); }
+html.clean[data-season=noel] .hero-pfp { border-color: #e3b964; }
+html.clean[data-season=noel] .hero::before { top: 6px; }
+.vdot { animation: vtw 3s ease-in-out infinite; }
+.vdot:nth-child(3n) { animation-delay: 1s; } .vdot:nth-child(3n+1) { animation-delay: 2s; }
+@keyframes vtw { 50% { opacity: .2; } }
+@media (prefers-reduced-motion: reduce) { .vdot { animation: none; } }
+@media (max-width: 900px) { html.clean[data-season=noel] .hero { grid-template-columns: 110px minmax(0, 1fr); padding-bottom: 160px; } html.clean[data-season=noel] .hero .village { height: 160px; } }
+@media (max-width: 520px) { html.clean[data-season=noel] .hero { grid-template-columns: 1fr; } }
+
+/* Ô chỉ số: tối, viền vàng nhạt */
+html.clean[data-season=noel] .stat-tile { background: #1f3a2e !important; color: #f6eedd; border: 1px solid #2e4a3c; }
+html.clean[data-season=noel] .t-lilac .stat-ic, html.clean[data-season=noel] .t-blue .stat-ic { background: linear-gradient(180deg, #4f9a73, #2f6b4f); }
+html.clean[data-season=noel] .t-pink .stat-ic { background: linear-gradient(180deg, #e0625c, #b8352f); }
+html.clean[data-season=noel] .t-yellow .stat-ic, html.clean[data-season=noel] .t-mint .stat-ic { background: linear-gradient(180deg, #f0cf86, #c99a3e); }
+html.clean[data-season=noel] .stat-sub .up { color: #8fd6a8; }
+html.clean[data-season=noel] .donut-hole { background: #1c3128; }
+html.clean[data-season=noel] .home-banner { background: linear-gradient(135deg, #b8352f, #7a2420); border: 1px solid #e3b96455; }
+html.clean[data-season=noel] .hb-btn { color: #b8352f; }
+html.clean[data-season=noel] .task, html.clean[data-season=noel] .trow.sel { background: #1f3a2e; }
+html.clean[data-season=noel] .mood-face span { filter: saturate(.9); }
+html.clean[data-season=noel] body::after { opacity: .7; }
+html.clean[data-season=noel] { --hero: radial-gradient(700px 300px at 50% 0%, #2c5a48 0%, transparent 70%), linear-gradient(180deg, #1d3a2f 0%, #17302a 100%); }
+
+/* P20: nhân vật toàn thân */
+.figure-stage {
+  width: 230px; height: 470px; flex: none; border-radius: 28px; padding: 10px 0 0;
+  background: radial-gradient(ellipse at 50% 35%, #fff7ee 0%, #f3e3d3 70%), #f3e3d3;
+  box-shadow: 0 1px 0 rgb(255 255 255 / .8) inset, 0 12px 26px rgb(110 80 60 / .18);
+}
+.figure-stage .figure-svg { width: 100%; height: 100%; display: block; filter: drop-shadow(0 6px 8px rgb(80 50 30 / .18)); }
+html.clean[data-season=noel] .figure-stage { background: radial-gradient(ellipse at 50% 35%, #2c5a48 0%, #17302a 75%); }
+@media (max-width: 520px) { .figure-stage { width: 180px; height: 370px; } }
+.figure-stage.photo { padding: 0; overflow: hidden; }
+.char-photo { width: 100%; height: 100%; object-fit: cover; object-position: 50% 15%; display: block; }
+.char-card summary { cursor: pointer; font-weight: 700; }
+.prompt-box { display: flex; gap: 8px; align-items: flex-start; background: var(--surface-2); border-radius: 12px; padding: 10px 12px; margin: 8px 0; }
+.prompt-box code { flex: 1; font-size: 12.5px; line-height: 1.5; white-space: normal; user-select: all; }
+.pfp img.from-char { object-fit: cover; object-position: 50% 4%; transform: scale(2.2); transform-origin: 50% 10%; }
+.qr-box { margin-top: 12px; display: grid; justify-items: start; gap: 8px; }
+.qr { padding: 12px; background: #fff; border-radius: 16px; box-shadow: var(--shadow); }
+.qr img, .qr canvas { display: block; }
+.sync-form { display: grid; gap: 8px; max-width: 420px; }
+.sync-dot[hidden] { display: none; }

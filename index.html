@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="vi" class="clean">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Ngôi nhà nhỏ</title>
+  <meta name="description" content="Việc, tập trung, uống nước và một chậu cây nhỏ.">
+  <meta name="theme-color" content="#8e74ea">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Ngôi nhà nhỏ">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=Baloo+2:wght@600;700;800&family=Poppins:wght@500;600;700;800&family=Montserrat:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="src/styles.css">
+  <link rel="stylesheet" href="src/cozy.css">
+  <link rel="stylesheet" href="src/clean.css">
+  <link rel="stylesheet" href="src/clay.css">
+  <link rel="stylesheet" href="src/season.css">
+  <link rel="stylesheet" href="src/scene.css">
+  <link rel="stylesheet" href="src/perf.css">
+  <link rel="stylesheet" href="src/aero.css">
+  <script>
+    // Giao diện: "clean" (gọn gàng, mặc định) hoặc "cozy" (ấm áp). Lưu riêng trên máy này.
+    try { if (localStorage.getItem('look') === 'cozy') document.documentElement.classList.remove('clean'); document.documentElement.dataset.season = localStorage.getItem('season') || ''; const lite = localStorage.getItem('lite'); if (lite === '1' || (lite === null && matchMedia('(prefers-reduced-motion: reduce)').matches)) document.documentElement.classList.add('lite'); } catch { /* bỏ qua */ }
+  </script>
+</head>
+<body>
+  <header class="app-header">
+    <div class="top-row">
+      <div class="brand">🏡 Ngôi nhà nhỏ</div>
+      <div class="pills">
+        <a id="pomo-pill" class="pill" href="#focus" hidden></a>
+        <a id="coin-pill" class="pill coin" href="#today">🪙 0</a>
+        <a class="pill icon" href="#stats" data-nav="stats" title="Thống kê" aria-label="Thống kê"><img class="pill-3d" src="icons/3d/chart.png" alt=""></a>
+        <a class="pill icon" href="#settings" data-nav="settings" title="Cài đặt" aria-label="Cài đặt"><img class="pill-3d" src="icons/3d/gear.png" alt=""></a>
+      </div>
+    </div>
+    <form id="capture" class="capture" autocomplete="off">
+      <input id="capture-input" maxlength="200"
+             placeholder="Ghi nhanh: “!gọi ngân hàng 15h mai #Công_việc” (Enter để lưu · phím N)"
+             aria-label="Ghi nhanh một việc">
+      <button type="submit">Thêm</button>
+    </form>
+    <div id="capture-preview" class="capture-preview" aria-live="polite" hidden></div>
+    <nav class="tabs">
+      <a href="#today" data-nav="today"><img class="tab-3d" src="icons/3d/calendar.png" alt="" width="128" height="128"><svg class="tab-ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/><text x="12" y="18" font-size="7" text-anchor="middle" stroke="none" fill="currentColor" font-weight="700">19</text></svg><span>Hôm nay</span></a>
+      <a href="#habits" data-nav="habits"><img class="tab-3d" src="icons/3d/seedling.png" alt="" width="128" height="128"><svg class="tab-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20v-8"/><path d="M12 12c0-4 3-6 7-6 0 4-3 6-7 6z"/><path d="M12 15c0-3-2.5-5-6-5 0 3 2.5 5 6 5z"/></svg><span>Thói quen</span></a>
+      <a href="#inbox" data-nav="inbox"><img class="tab-3d" src="icons/3d/inbox.png" alt="" width="128" height="128"><svg class="tab-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13l2.5-7h11L20 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M4 13h5a3 3 0 0 0 6 0h5"/></svg><span>Inbox</span> <span id="inbox-badge" class="badge" hidden></span></a>
+      <a href="#tasks" data-nav="tasks"><img class="tab-3d" src="icons/3d/check.png" alt="" width="128" height="128"><svg class="tab-ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M8.5 12.5l2.5 2.5 5-6"/></svg><span>Việc</span></a>
+      <a href="#focus" data-nav="focus"><img class="tab-3d" src="icons/3d/timer.png" alt="" width="128" height="128"><svg class="tab-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="7.5"/><path d="M12 9v4l2.5 2M10 3h4"/></svg><span>Tập trung</span></a>
+      <a href="#water" data-nav="health"><img class="tab-3d" src="icons/3d/heart.png" alt="" width="128" height="128"><svg class="tab-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg><span>Sức khỏe</span></a>
+      <a href="#ielts" data-nav="learn"><img class="tab-3d" src="icons/3d/books.png" alt="" width="128" height="128"><svg class="tab-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20v3H6.5"/></svg><span>Học</span></a>
+      <a href="#journal" data-nav="journal"><img class="tab-3d" src="icons/3d/notebook.png" alt="" width="128" height="128"><svg class="tab-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4l5 5L9 20H4v-5z"/><path d="M13 6l5 5"/></svg><span>Nhật ký</span></a>
+      <a href="#money" data-nav="finance"><img class="tab-3d" src="icons/3d/moneybag.png" alt="" width="128" height="128"><svg class="tab-ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="13" rx="3"/><path d="M3 10h18M16 14.5h2"/></svg><span>Tài chính</span></a>
+      <a href="#house" data-nav="home"><img class="tab-3d" src="icons/3d/house.png" alt="" width="128" height="128"><svg class="tab-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-7 8 7v8a1 1 0 0 1-1 1h-5v-6h-4v6H5a1 1 0 0 1-1-1z"/></svg><span>Nhà &amp; vườn</span></a>
+    </nav>
+  </header>
+
+  <div id="banner" class="banner" hidden></div>
+  <main id="main"></main>
+  <div id="toast" class="toast" role="status" hidden></div>
+
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+Âm thanh nền – Ngôi nhà nhỏ (đã cắt đoạn, nối vòng lặp, cân âm lượng, chuyển sang AAC)
+
+Mixkit (https://mixkit.co) – Sound Effects Free License (dùng miễn phí, không cần ghi tên):
+  rain (1249 Light rain looping), thunder (2402 Thunderstorm and rain loop), waves (1196 Sea waves loop),
+  ocean (1206 Sea coast breaking waves), fire (1736 Campfire night wind), birds (1210 Forest birds ambience),
+  stream (3126 Water flowing ambience loop), night (2414 Night forest with insects),
+  chatter (444 Restaurant crowd talking ambience), clink1–7 (2836, 2936, 154, 2835, 2933, 1799, 133).
+
+Wikimedia Commons:
+  cafe    – "Cafe ambiance.ogg" by Marble Toast – CC0
+  grinder – "Coffee grinder.ogg" by smijen – Public domain
+  steam   – "Espresso machine.ogg" by hugh – Public domain
+  library – "20121112 TU Delft Library, quiet study room - general ambience - SoundCloud - el mar.ogg" by el_mar
+            – CC BY 3.0 (https://creativecommons.org/licenses/by/3.0/) – đã chỉnh sửa (cắt đoạn, nối vòng lặp).
+
+Nhạc nền (assets/music) – Mixkit (https://mixkit.co), Free License, không cần ghi tên. Số file = mã bài trên Mixkit.
+
+Nhạc sự kiện (assets/music):
+  tet-guzheng-morning, tet-zheng-zheng, tet-happy-monks, tet-erhu – Antti Luode, CC BY 3.0, Wikimedia Commons (đã chuyển sang HE-AAC).
+  tet-mua-la-chuoi – "雨打芭蕉" (dân gian, phối 丘鹤俦), CC BY-SA 4.0, Wikimedia Commons (đã chuyển định dạng; bản chuyển cũng theo CC BY-SA 4.0).
+  tet-cung-hy – "Gong Xi Gong Xi" (Trần Ca Tân / Diêu Lỵ, 1940s), public domain, Wikimedia Commons.
+  ny-auld-lang-syne – "Auld Lang Syne", public domain, Wikimedia Commons.
+  Các số còn lại – Mixkit Free License.
+
+Nhạc cổ điển & Á Đông bổ sung (assets/music, đã chuyển sang HE-AAC), Wikimedia Commons:
+  cl-gymnopedie (Robin Alciatore), cl-clair-de-lune, cl-nocturne (Frank Lévy), cl-traumerei (Musopen), cl-morning (Musopen Symphony),
+  cl-air (U.S. Air Force Band), cl-romanze – public domain.
+  cl-arabesque (Patrizia Prati), cl-spring & cl-spring-largo (John Harrison, violin) – CC BY-SA 4.0 (bản chuyển cũng theo CC BY-SA 4.0).
+  as-shakuhachi – "Do you Shakuhachi", Antti Luode – CC BY 3.0.
